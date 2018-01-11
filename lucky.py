@@ -47,26 +47,27 @@ def search_keyword(qusetion, answers):
 
 
 def get_question(lastQuestion):
-    # resp = requests.get(
-    #     'http://htpmsg.jiecaojingxuan.com/msg/current', timeout=4).text
+    resp = requests.get(
+        'http://htpmsg.jiecaojingxuan.com/msg/current', timeout=4).text
 
-    resp = requests.get('http://localhost:8000/sample.json',
-                        ).text
+    # resp = requests.get('http://localhost:8000/sample.json',
+    #                     ).text
+    question = ''
     resp_dict = json.loads(resp)
     if resp_dict['msg'] != 'no data':
         question = resp_dict['data']['event']['desc']
         question = question[question.find('.') + 1:question.find('?')]
         answers = eval(resp_dict['data']['event']['options'])
-        # question = '“三江源′′中的“三江″不包括?'
-        # answers = ['怒江', '长江', '黄河']
+        # question = '哪种动物的乳汁最适合替代人类母乳?'
+        # answers = ['牛', '羊', '驴奶']
         if question != lastQuestion:
             print('******************************************')
             print(question)
             print(answers)
             print('******************************************')
             search_keyword(question, answers)
-        # else:
-            # print('same question')     
+    else:
+        question = lastQuestion  
     return question
 
 if __name__ == '__main__':
